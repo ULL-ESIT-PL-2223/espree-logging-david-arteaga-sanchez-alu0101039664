@@ -1,5 +1,5 @@
 {
-    "name": "espree-logging-solution",
+    "name": "@alu0101039664/espree-logging-solution",
     "author": "Casiano Rodriguez Leon <crguezl@ull.edu.es> (https://crguezl.github.io/)",
     "description": "Adds logs to javascript code",
     "type": "module",
