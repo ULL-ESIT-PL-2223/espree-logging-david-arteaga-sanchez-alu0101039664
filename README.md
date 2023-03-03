@@ -87,18 +87,19 @@ Entering <anonymous function>() at line 3
 Usando el paquete Commander de npm podemos parsear los comandos introducidos por consola. Esto lo usaremos para poder pasar como argumento el nombre del fichero de entrada y el de salida. Una posible forma de realizarlo sería así:
 
 ```javascript
-const {program} = require('commander');
-const {version, description} = require('../package.json');
-const { transpile } = require('../src/logging-espree.js')
+import { program } from "commander";
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const { version } = require("../package.json");
+import { transpile } from "../src/logging-espree.js";
+
 program
-    .name("jslogging")
-    .version(version)
-    .description(description)
-    .argument("<filename>", 'file with the original code')
-    .option("-o, --output <filename>", "file in which to write the output", "")
-    .action((filename, options) => {
-       transpile(filename, options.output);
-    });
+  .version(version)
+  .argument("<filename>", 'file with the original code')
+  .option("-o, --output <filename>", "file in which to write the output")
+  .action((filename, options) => {
+    transpile(filename, options.output);
+  });
 
 program.parse(process.argv);
 ```
@@ -141,9 +142,9 @@ let beforeCode = `console.log(\`Entering ${name}(${parameters}) at line ${node.l
 Podemos ejecutar los test del directorio `./test` con el objetivo de comprobar la salida de nuestro programa. Para automatizar este proceso lo incorporaremos como script en el fichero `package.json` para poder ejecutarlos con `npm`. Añadimos entonces:
 
 ```json
-"scripts": { 
-  "test": "./bin/all-test.sh",
-  "start": "./jslogging ./test/test1.js"
+"scripts": {
+  "start": "node bin/log.js input.js -o output.js",
+  "test": "mocha test/test.mjs"
 }
 ```
 
@@ -152,7 +153,11 @@ Podemos ejecutar los test del directorio `./test` con el objetivo de comprobar l
 Para ejecutar las pruebas de cobertura de código añadiremos al `package.json` un nuevo script: 
 
 ```json
-"cov": "nyc npm test"
+"scripts": {
+  "start": "node bin/log.js input.js -o output.js",
+  "test": "mocha test/test.mjs",
+  "cov": "nyc npm test"
+    },
 ```
 
 Si lo ejectuamos recibiremos algo como:
@@ -173,7 +178,7 @@ Para publicar el paquete como npm con ámbito @aluXXX primero nos crearemos una 
 "name": "@alu0101039664/espree-logging-solution",
 ```
 
-Finalmente ejecutamos `npm publish` y nuestro paquete estará publicado.
+Finalmente ejecutamos `npm publish --access=public` y nuestro paquete estará publicado.
 
 ## Integración Continua
 
