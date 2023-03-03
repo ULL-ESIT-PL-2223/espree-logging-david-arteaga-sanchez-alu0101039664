@@ -22,5 +22,5 @@ export default [
     output: 'logged4.js',
     correctLogged: 'correct-logged4.js',
     correctOut: 'logged-out4.txt'
-  }
+  },
 ]

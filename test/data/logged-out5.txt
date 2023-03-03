@@ -1,0 +1,2 @@
+Entering <anonymous function>(1,2) at line 1
+Entering <anonymous function>(1,2) at line 2

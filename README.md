@@ -51,35 +51,30 @@ Finalmente convertiremos el árbol ast de nuevo a código javascript con la func
 ## El ejecutable
 
 ```
-✗ bin/logging.js -h
-Usage: jslogging [options] <filename>
-
-Adds logs to javascript code
+Usage: log [options] <filename>
 
 Arguments:
   filename                 file with the original code
 
 Options:
   -V, --version            output the version number
-  -o, --output <filename>  file in which to write the output (default: "output.js")
+  -o, --output <filename>  file in which to write the output
   -h, --help               display help for command
 ```
 
+Realizamos una ejecución de prueba con el fichero input.js
+
 ```
-git:(main) ✗ cat test/test1.js 
-function foo(a, b) {   
-    var x = 'blah';   
-    var y = (function () {
-      return 3;
-    })();
-  }     
-foo(1, 'wut', 3);
-➜  git:(template) ✗ bin/logging.js test/test1.js -o salida.js
-File read succesfully
-Output written succesfully in salida.js
-➜  git:(template) ✗ node salida.js
-Entering foo(1, wut) at line 1
-Entering <anonymous function>() at line 3
+node bin/log.js input.js
+function foo(a, b) {
+    console.log(`Entering foo(${ a },${ b }) at line 1`);
+    var x = 'blah';
+    var y = function () {
+        console.log(`Entering <anonymous function>() at line 3`);
+        return 3;
+    }();
+}
+foo(1, 'wut', 4);
 ```
 
 ## CLI con [Commander.js](https://www.npmjs.com/package/commander)
